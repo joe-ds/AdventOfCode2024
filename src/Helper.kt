@@ -13,3 +13,8 @@ fun Day.getInputAsLines(): List<String> {
     val filename: String = "inputs/" + (this.dNo.toString()).padStart(2, '0')
     return File(filename).readLines().map{ it.trim() }
 }
+
+fun Day.getInput(): String {
+    val filename: String = "inputs/" + (this.dNo.toString()).padStart(2, '0')
+    return File(filename).readText().trim()
+}

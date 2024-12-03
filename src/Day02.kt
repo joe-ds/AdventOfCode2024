@@ -5,7 +5,7 @@ class Day02: Day(2) {
         line.split(' ').map { it.toInt() }
     }
 
-    private fun countValids(ls: List<List<Int>>): Int {
+    private fun countValid(ls: List<List<Int>>): Int {
         var count = 0
         for (row in ls) {
             var descending: Boolean? = null
@@ -32,24 +32,25 @@ class Day02: Day(2) {
     }
 
     override fun partOne(): String {
-        val count = countValids(input)
+        val count = countValid(input)
         return count.toString()
     }
 
     private fun threeOptions(row: List<Int>, i: Int): Boolean {
         val optionOne = with(row.toMutableList()) {
             this.removeAt(i)
-            countValids(listOf(this)) == 1
+            countValid(listOf(this)) == 1
         }
+
         val optionTwo = with(row.toMutableList()) {
             this.removeAt(i+1)
-            countValids(listOf(this)) == 1
+            countValid(listOf(this)) == 1
         }
 
         val optionThree = try {
             with(row.toMutableList()) {
                 this.removeAt(i-1)
-                countValids(listOf(this)) == 1
+                countValid(listOf(this)) == 1
             }
         } catch (e: IndexOutOfBoundsException) {
             false
