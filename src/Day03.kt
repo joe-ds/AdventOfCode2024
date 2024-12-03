@@ -29,7 +29,7 @@ class Day03: Day(3) {
 
         val donts = input.split("don't()")
         val start = findMuls(donts.first()).map(::parseAndMul).sum()
-        val rest = donts.asSequence().drop(1).toList().asSequence().map {
+        val rest = donts.asSequence().drop(1).map {
             it.split("do()")
         }.filter { it.size > 1 }.map { findingdos -> findingdos.drop(1).map(::findMuls).map { it.map(::parseAndMul) } }
             .flatten().flatten().sum()
