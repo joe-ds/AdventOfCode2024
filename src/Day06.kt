@@ -23,9 +23,6 @@ class Day06: Day(6) {
         Direction.LEFT -> Direction.UP
     }
 
-    operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
-    operator fun Pair<Int, Int>.minus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
-
     init {
         for (row in rawInput.indices) {
             val col = rawInput[row].indexOf('^')

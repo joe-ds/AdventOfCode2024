@@ -14,6 +14,9 @@ fun Day.getInputAsLines(): List<String> {
     return File(filename).readLines().map{ it.trim() }
 }
 
+operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
+operator fun Pair<Int, Int>.minus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
+
 fun Day.getInput(): String {
     val filename: String = "inputs/" + (this.dNo.toString()).padStart(2, '0')
     return File(filename).readText().trim()
