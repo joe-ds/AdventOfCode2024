@@ -14,6 +14,10 @@ fun Day.getInputAsLines(): List<String> {
     return File(filename).readLines().map{ it.trim() }
 }
 
+typealias Coords = Pair<Int, Int>
+
+fun <T> List<List<T>>.getWithCoord(coords: Coords): T = this[coords.first][coords.second]
+
 operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
 operator fun Pair<Int, Int>.minus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
 
