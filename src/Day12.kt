@@ -1,5 +1,3 @@
-import kotlin.time.measureTime
-
 class Day12: Day(12) {
     val input = this.getInputAsLines()
 
@@ -112,65 +110,51 @@ class Day12: Day(12) {
                     val x = Coords(current.first - 1, current.second)
                     val y = input.getWithCoord(x)
                     if (!visited.contains(x) && y == here) stack.add(x)
-                    if (y == here) before = true
+                    if (y == here) above = true
                 }
 
                 if (current.first < input.first().lastIndex) {
                     val x = Coords(current.first + 1, current.second)
                     val y = input.getWithCoord(x)
                     if (!visited.contains(x) && y == here) stack.add(x)
-                    if (y == here) after = true
+                    if (y == here) below = true
                 }
 
                 if (current.second > 0) {
                     val x = Coords(current.first, current.second - 1)
                     val y = input.getWithCoord(x)
                     if (!visited.contains(x) && y == here) stack.add(x)
-                    if (y == here) above = true
+                    if (y == here) before = true
                 }
 
                 if (current.second < input.lastIndex) {
                     val x = Coords(current.first, current.second + 1)
                     val y = input.getWithCoord(x)
                     if (!visited.contains(x) && y == here) stack.add(x)
-                    if (y == here) below = true
+                    if (y == here) after = true
                 }
 
-                val top_left = !(before xor above)
-                val top_right = !(after xor above)
-                val bottom_left = !(before xor below)
-                val bottom_right = !(after xor below)
+                val topLeft = try {
+                    input.getWithCoord(current + Coords(-1, -1)) == here
+                } catch (_:IndexOutOfBoundsException) { false }
+                val topRight = try {
+                    input.getWithCoord(current + Coords(-1, 1)) == here
+                } catch (_:IndexOutOfBoundsException) { false }
+                val bottomLeft = try {
+                    input.getWithCoord(current + Coords(1, -1)) == here
+                } catch (_:IndexOutOfBoundsException) { false }
+                val bottomRight = try {
+                    input.getWithCoord(current + Coords(1, 1)) == here
+                } catch (_:IndexOutOfBoundsException) { false }
 
-                // Top-Left
-                try {
-                    if (input.getWithCoord(current + Coords(-1, -1)) == here && top_left) perimeter++
-                } catch (_: IndexOutOfBoundsException) {
-                    if (top_left) perimeter++
-                }
-
-                // Bottom-Left
-                try {
-                    if (input.getWithCoord(current + Coords(-1, 1)) == here && bottom_left) perimeter++
-                } catch (_: IndexOutOfBoundsException) {
-                    if (bottom_left) perimeter++
-                }
-
-                // Top-Right
-                try {
-                    if (input.getWithCoord(current + Coords(1, -1)) == here && top_right) perimeter++
-                } catch (_: IndexOutOfBoundsException) {
-                    if (top_right) perimeter++
-                }
-
-                // Bottom-Right
-                try {
-                    if (input.getWithCoord(current + Coords(1, 1)) == here && bottom_right) perimeter++
-                } catch (_: IndexOutOfBoundsException) {
-                    if (bottom_right) perimeter++
-                }
+                perimeter += listOf(
+                    (before && above && !topLeft) || !before && !above,
+                    (after && above && !topRight) || !after && !above,
+                    (before && below && !bottomLeft) || !before && !below,
+                    (after && below && !bottomRight) || !after && !below,
+                ).filter { it }.size
 
                 if (stack.isEmpty()) {
-                    println("perimeter: $perimeter * area: $area gives ${perimeter*area} and brings total to $total")
                     total += perimeter * area
                     perimeter = 0
                     area = 0
