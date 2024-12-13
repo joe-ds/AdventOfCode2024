@@ -19,7 +19,16 @@ typealias Coords = Pair<Int, Int>
 fun <T> List<List<T>>.getWithCoord(coords: Coords): T = this[coords.first][coords.second]
 
 operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
-operator fun Pair<Int, Int>.minus(other: Pair<Int, Int>) = Pair(this.first + other.first, this.second + other.second)
+operator fun Pair<Int, Int>.minus(other: Pair<Int, Int>) = Pair(this.first - other.first, this.second - other.second)
+operator fun Pair<Int, Int>.times(other: Int) = Pair(this.first * other, this.second * other)
+operator fun Pair<Int, Int>.compareTo(other: Pair<Int, Int>): Int {
+    return if (this.first == other.first) {
+        this.second - other.second
+    } else {
+        this.first - other.first
+    }
+}
+operator fun Pair<Int, Int>.rem(other: Pair<Int, Int>): Pair<Int, Int> = Pair(this.first % other.first, this.second % other.second)
 
 fun Day.getInput(): String {
     val filename: String = "inputs/" + (this.dNo.toString()).padStart(2, '0')
